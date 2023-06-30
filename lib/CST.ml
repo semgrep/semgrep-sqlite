@@ -9,506 +9,344 @@ open! Sexplib.Conv
 open Tree_sitter_run
 
 type rowid = Token.t (* pattern [rR][oO][wW][iI][dD] *)
-[@@deriving sexp_of]
 
 type escape = Token.t (* pattern [eE][sS][cC][aA][pP][eE] *)
-[@@deriving sexp_of]
 
 type range = Token.t (* pattern [rR][aA][nN][gG][eE] *)
-[@@deriving sexp_of]
 
 type immediate = Token.t (* pattern [iI][mM][mM][eE][dD][iI][aA][tT][eE] *)
-[@@deriving sexp_of]
 
 type natural = Token.t (* pattern [nN][aA][tT][uU][rR][aA][lL] *)
-[@@deriving sexp_of]
 
 type before = Token.t (* pattern [bB][eE][fF][oO][rR][eE] *)
-[@@deriving sexp_of]
 
 type create = Token.t (* pattern [cC][rR][eE][aA][tT][eE] *)
-[@@deriving sexp_of]
 
 type all = Token.t (* pattern [aA][lL][lL] *)
-[@@deriving sexp_of]
 
 type to_ = Token.t (* pattern [tT][oO] *)
-[@@deriving sexp_of]
 
 type deferrable =
   Token.t (* pattern [dD][eE][fF][eE][rR][rR][aA][bB][lL][eE] *)
-[@@deriving sexp_of]
 
 type ignore = Token.t (* pattern [iI][gG][nN][oO][rR][eE] *)
-[@@deriving sexp_of]
 
 type if_ = Token.t (* pattern [iI][fF] *)
-[@@deriving sexp_of]
 
 type index = Token.t (* pattern [iI][nN][dD][eE][xX] *)
-[@@deriving sexp_of]
 
 type union = Token.t (* pattern [uU][nN][iI][oO][nN] *)
-[@@deriving sexp_of]
 
 type insert = Token.t (* pattern [iI][nN][sS][eE][rR][tT] *)
-[@@deriving sexp_of]
 
 type over = Token.t (* pattern [oO][vV][eE][rR] *)
-[@@deriving sexp_of]
 
 type exclude = Token.t (* pattern [eE][xX][cC][lL][uU][dD][eE] *)
-[@@deriving sexp_of]
 
 type nothing = Token.t (* pattern [nN][oO][tT][hH][iI][nN][gG] *)
-[@@deriving sexp_of]
 
 type first = Token.t (* pattern [fF][iI][rR][sS][tT] *)
-[@@deriving sexp_of]
 
 type with_ = Token.t (* pattern [wW][iI][tT][hH] *)
-[@@deriving sexp_of]
 
 type current = Token.t (* pattern [cC][uU][rR][rR][eE][nN][tT] *)
-[@@deriving sexp_of]
 
 type when_ = Token.t (* pattern [wW][hH][eE][nN] *)
-[@@deriving sexp_of]
 
 type raise = Token.t (* pattern [rR][aA][iI][sS][eE] *)
-[@@deriving sexp_of]
 
 type by = Token.t (* pattern [bB][yY] *)
-[@@deriving sexp_of]
 
 type last = Token.t (* pattern [lL][aA][sS][tT] *)
-[@@deriving sexp_of]
 
 type anon_choice_PLUS_da42005 = [
     `PLUS of Token.t (* "+" *)
   | `DASH of Token.t (* "-" *)
 ]
-[@@deriving sexp_of]
 
 type or_ = Token.t (* pattern [oO][rR] *)
-[@@deriving sexp_of]
 
 type virtual_ = Token.t (* pattern [vV][iI][rR][tT][uU][aA][lL] *)
-[@@deriving sexp_of]
 
 type references =
   Token.t (* pattern [rR][eE][fF][eE][rR][eE][nN][cC][eE][sS] *)
-[@@deriving sexp_of]
 
 type distinct = Token.t (* pattern [dD][iI][sS][tT][iI][nN][cC][tT] *)
-[@@deriving sexp_of]
 
-type pat_ae33c7c = Token.t (* pattern [^*]*\*+([^\/*][^*]*\*+)* *)
-[@@deriving sexp_of]
+type pat_93c883a = Token.t (* pattern [$_0-9a-zA-Z\x80-\xFF]+ *)
 
 type unbounded = Token.t (* pattern [uU][nN][bB][oO][uU][nN][dD][eE][dD] *)
-[@@deriving sexp_of]
 
 type analyze = Token.t (* pattern [aA][nN][aA][lL][yY][zZ][eE] *)
-[@@deriving sexp_of]
 
 type preceding = Token.t (* pattern [pP][rR][eE][cC][eE][dD][iI][nN][gG] *)
-[@@deriving sexp_of]
 
 type transaction =
   Token.t (* pattern [tT][rR][aA][nN][sS][aA][cC][tT][iI][oO][nN] *)
-[@@deriving sexp_of]
 
 type true_ = Token.t (* pattern [tT][rR][uU][eE] *)
-[@@deriving sexp_of]
 
 type generated = Token.t (* pattern [gG][eE][nN][eE][rR][aA][tT][eE][dD] *)
-[@@deriving sexp_of]
 
 type end_ = Token.t (* pattern [eE][nN][dD] *)
-[@@deriving sexp_of]
 
 type limit = Token.t (* pattern [lL][iI][mM][iI][tT] *)
-[@@deriving sexp_of]
 
 type join = Token.t (* pattern [jJ][oO][iI][nN] *)
-[@@deriving sexp_of]
 
 type on = Token.t (* pattern [oO][nN] *)
-[@@deriving sexp_of]
 
 type action = Token.t (* pattern [aA][cC][tT][iI][oO][nN] *)
-[@@deriving sexp_of]
 
 type except = Token.t (* pattern [eE][xX][cC][eE][pP][tT] *)
-[@@deriving sexp_of]
 
 type else_ = Token.t (* pattern [eE][lL][sS][eE] *)
-[@@deriving sexp_of]
 
 type do_ = Token.t (* pattern [dD][oO] *)
-[@@deriving sexp_of]
 
 type after = Token.t (* pattern [aA][fF][tT][eE][rR] *)
-[@@deriving sexp_of]
 
 type notnull = Token.t (* pattern [nN][oO][tT][nN][uU][lL][lL] *)
-[@@deriving sexp_of]
 
 type autoincrement =
   Token.t (* pattern [aA][uU][tT][oO][iI][nN][cC][rR][eE][mM][eE][nN][tT] *)
-[@@deriving sexp_of]
 
 type asc = Token.t (* pattern [aA][sS][cC] *)
-[@@deriving sexp_of]
 
 type from = Token.t (* pattern [fF][rR][oO][mM] *)
-[@@deriving sexp_of]
 
 type initially = Token.t (* pattern [iI][nN][iI][tT][iI][aA][lL][lL][yY] *)
-[@@deriving sexp_of]
 
 type recursive = Token.t (* pattern [rR][eE][cC][uU][rR][sS][iI][vV][eE] *)
-[@@deriving sexp_of]
 
 type collate = Token.t (* pattern [cC][oO][lL][lL][aA][tT][eE] *)
-[@@deriving sexp_of]
 
 type each = Token.t (* pattern [eE][aA][cC][hH] *)
-[@@deriving sexp_of]
 
 type no = Token.t (* pattern [nN][oO] *)
-[@@deriving sexp_of]
 
 type temporary = Token.t (* pattern [tT][eE][mM][pP][oO][rR][aA][rR][yY] *)
-[@@deriving sexp_of]
 
 type current_date =
   Token.t (* pattern [cC][uU][rR][rR][eE][nN][tT][__][dD][aA][tT][eE] *)
-[@@deriving sexp_of]
 
 type plan = Token.t (* pattern [pP][lL][aA][nN] *)
-[@@deriving sexp_of]
 
 type left = Token.t (* pattern [lL][eE][fF][tT] *)
-[@@deriving sexp_of]
 
 type row = Token.t (* pattern [rR][oO][wW] *)
-[@@deriving sexp_of]
 
 type explain = Token.t (* pattern [eE][xX][pP][lL][aA][iI][nN] *)
-[@@deriving sexp_of]
 
 type having = Token.t (* pattern [hH][aA][vV][iI][nN][gG] *)
-[@@deriving sexp_of]
 
 type begin_ = Token.t (* pattern [bB][eE][gG][iI][nN] *)
-[@@deriving sexp_of]
 
 type group = Token.t (* pattern [gG][rR][oO][uU][pP] *)
-[@@deriving sexp_of]
 
 type in_ = Token.t (* pattern [iI][nN] *)
-[@@deriving sexp_of]
 
 type values = Token.t (* pattern [vV][aA][lL][uU][eE][sS] *)
-[@@deriving sexp_of]
 
 type trigger = Token.t (* pattern [tT][rR][iI][gG][gG][eE][rR] *)
-[@@deriving sexp_of]
 
 type null = Token.t (* pattern [nN][uU][lL][lL] *)
-[@@deriving sexp_of]
 
 type deferred = Token.t (* pattern [dD][eE][fF][eE][rR][rR][eE][dD] *)
-[@@deriving sexp_of]
 
 type window = Token.t (* pattern [wW][iI][nN][dD][oO][wW] *)
-[@@deriving sexp_of]
 
 type restrict = Token.t (* pattern [rR][eE][sS][tT][rR][iI][cC][tT] *)
-[@@deriving sexp_of]
 
 type select = Token.t (* pattern [sS][eE][lL][eE][cC][tT] *)
-[@@deriving sexp_of]
 
 type indexed = Token.t (* pattern [iI][nN][dD][eE][xX][eE][dD] *)
-[@@deriving sexp_of]
 
 type partition = Token.t (* pattern [pP][aA][rR][tT][iI][tT][iI][oO][nN] *)
-[@@deriving sexp_of]
 
 type using = Token.t (* pattern [uU][sS][iI][nN][gG] *)
-[@@deriving sexp_of]
 
 type others = Token.t (* pattern [oO][tT][hH][eE][rR][sS] *)
-[@@deriving sexp_of]
 
 type cascade = Token.t (* pattern [cC][aA][sS][cC][aA][dD][eE] *)
-[@@deriving sexp_of]
 
 type following = Token.t (* pattern [fF][oO][lL][lL][oO][wW][iI][nN][gG] *)
-[@@deriving sexp_of]
 
 type release = Token.t (* pattern [rR][eE][lL][eE][aA][sS][eE] *)
-[@@deriving sexp_of]
 
 type ties = Token.t (* pattern [tT][iI][eE][sS] *)
-[@@deriving sexp_of]
 
 type detach = Token.t (* pattern [dD][eE][tT][aA][cC][hH] *)
-[@@deriving sexp_of]
 
 type cross = Token.t (* pattern [cC][rR][oO][sS][sS] *)
-[@@deriving sexp_of]
 
 type isnull = Token.t (* pattern [iI][sS][nN][uU][lL][lL] *)
-[@@deriving sexp_of]
 
 type not = Token.t (* pattern [nN][oO][tT] *)
-[@@deriving sexp_of]
 
 type inner = Token.t (* pattern [iI][nN][nN][eE][rR] *)
-[@@deriving sexp_of]
 
 type update = Token.t (* pattern [uU][pP][dD][aA][tT][eE] *)
-[@@deriving sexp_of]
 
 type database = Token.t (* pattern [dD][aA][tT][aA][bB][aA][sS][eE] *)
-[@@deriving sexp_of]
 
-type pat_73398bc = Token.t (* pattern "(\"\"|[^\"])*" *)
-[@@deriving sexp_of]
+type pat_4fd4a56 = Token.t (* pattern .* *)
 
 type current_timestamp =
   Token.t (* pattern [cC][uU][rR][rR][eE][nN][tT][__][tT][iI][mM][eE][sS][tT][aA][mM][pP] *)
-[@@deriving sexp_of]
 
 type set = Token.t (* pattern [sS][eE][tT] *)
-[@@deriving sexp_of]
 
 type primary = Token.t (* pattern [pP][rR][iI][mM][aA][rR][yY] *)
-[@@deriving sexp_of]
 
 type temp = Token.t (* pattern [tT][eE][mM][pP] *)
-[@@deriving sexp_of]
 
 type pat_f79575e = Token.t (* pattern "(''|[^'])*" *)
-[@@deriving sexp_of]
 
 type order = Token.t (* pattern [oO][rR][dD][eE][rR] *)
-[@@deriving sexp_of]
 
 type outer = Token.t (* pattern [oO][uU][tT][eE][rR] *)
-[@@deriving sexp_of]
 
 type is = Token.t (* pattern [iI][sS] *)
-[@@deriving sexp_of]
 
 type numeric_literal = Token.t
-[@@deriving sexp_of]
 
 type pat_f154b4a = Token.t (* pattern [^\]]* *)
-[@@deriving sexp_of]
 
-type pat_93c883a = Token.t (* pattern [$_0-9a-zA-Z\x80-\xFF]+ *)
-[@@deriving sexp_of]
+type pat_73398bc = Token.t (* pattern "(\"\"|[^\"])*" *)
 
 type pragma = Token.t (* pattern [pP][rR][aA][gG][mM][aA] *)
-[@@deriving sexp_of]
 
 type table = Token.t (* pattern [tT][aA][bB][lL][eE] *)
-[@@deriving sexp_of]
 
 type column = Token.t (* pattern [cC][oO][lL][uU][mM][nN] *)
-[@@deriving sexp_of]
 
 type default = Token.t (* pattern [dD][eE][fF][aA][uU][lL][tT] *)
-[@@deriving sexp_of]
 
 type vacuum = Token.t (* pattern [vV][aA][cC][uU][uU][mM] *)
-[@@deriving sexp_of]
 
 type false_ = Token.t (* pattern [fF][aA][lL][sS][eE] *)
-[@@deriving sexp_of]
 
 type instead = Token.t (* pattern [iI][nN][sS][tT][eE][aA][dD] *)
-[@@deriving sexp_of]
 
 type of_ = Token.t (* pattern [oO][fF] *)
-[@@deriving sexp_of]
 
 type current_time =
   Token.t (* pattern [cC][uU][rR][rR][eE][nN][tT][__][tT][iI][mM][eE] *)
-[@@deriving sexp_of]
 
 type exists = Token.t (* pattern [eE][xX][iI][sS][tT][sS] *)
-[@@deriving sexp_of]
 
 type reindex = Token.t (* pattern [rR][eE][iI][nN][dD][eE][xX] *)
-[@@deriving sexp_of]
 
 type rows = Token.t (* pattern [rR][oO][wW][sS] *)
-[@@deriving sexp_of]
 
 type cast = Token.t (* pattern [cC][aA][sS][tT] *)
-[@@deriving sexp_of]
 
 type like = Token.t (* pattern [lL][iI][kK][eE] *)
-[@@deriving sexp_of]
 
 type constraint_ =
   Token.t (* pattern [cC][oO][nN][sS][tT][rR][aA][iI][nN][tT] *)
-[@@deriving sexp_of]
 
 type regexp = Token.t (* pattern [rR][eE][gG][eE][xX][pP] *)
-[@@deriving sexp_of]
 
 type materialized =
   Token.t (* pattern [mM][aA][tT][eE][rR][iI][aA][lL][iI][zZ][eE][dD] *)
-[@@deriving sexp_of]
 
 type offset = Token.t (* pattern [oO][fF][fF][sS][eE][tT] *)
-[@@deriving sexp_of]
 
-type pat_213dc3e = Token.t (* pattern [0-9] *)
-[@@deriving sexp_of]
+type pat_05bf793 = Token.t (* pattern [^*]*\*+([^/*][^*]*\*+)* *)
 
 type drop = Token.t (* pattern [dD][rR][oO][pP] *)
-[@@deriving sexp_of]
 
 type attach = Token.t (* pattern [aA][tT][tT][aA][cC][hH] *)
-[@@deriving sexp_of]
 
 type view = Token.t (* pattern [vV][iI][eE][wW] *)
-[@@deriving sexp_of]
 
 type without = Token.t (* pattern [wW][iI][tT][hH][oO][uU][tT] *)
-[@@deriving sexp_of]
 
 type between = Token.t (* pattern [bB][eE][tT][wW][eE][eE][nN] *)
-[@@deriving sexp_of]
+
+type pat_213dc3e = Token.t (* pattern [0-9] *)
+
+type stored = Token.t (* pattern [sS][tT][oO][rR][eE][dD] *)
+
+type where = Token.t (* pattern [wW][hH][eE][rR][eE] *)
+
+type alter = Token.t (* pattern [aA][lL][tT][eE][rR] *)
+
+type for_ = Token.t (* pattern [fF][oO][rR] *)
+
+type key = Token.t (* pattern [kK][eE][yY] *)
+
+type savepoint = Token.t (* pattern [sS][aA][vV][eE][pP][oO][iI][nN][tT] *)
+
+type glob = Token.t (* pattern [gG][lL][oO][bB] *)
+
+type query = Token.t (* pattern [qQ][uU][eE][rR][yY] *)
+
+type groups = Token.t (* pattern [gG][rR][oO][uU][pP][sS] *)
+
+type intersect = Token.t (* pattern [iI][nN][tT][eE][rR][sS][eE][cC][tT] *)
+
+type case = Token.t (* pattern [cC][aA][sS][eE] *)
+
+type delete = Token.t (* pattern [dD][eE][lL][eE][tT][eE] *)
+
+type replace = Token.t (* pattern [rR][eE][pP][lL][aA][cC][eE] *)
 
 type pat_29ffae5 =
   Token.t (* pattern [_a-zA-Z\x80-\xFF][$_0-9a-zA-Z\x80-\xFF]* *)
-[@@deriving sexp_of]
-
-type stored = Token.t (* pattern [sS][tT][oO][rR][eE][dD] *)
-[@@deriving sexp_of]
-
-type where = Token.t (* pattern [wW][hH][eE][rR][eE] *)
-[@@deriving sexp_of]
-
-type alter = Token.t (* pattern [aA][lL][tT][eE][rR] *)
-[@@deriving sexp_of]
-
-type for_ = Token.t (* pattern [fF][oO][rR] *)
-[@@deriving sexp_of]
-
-type key = Token.t (* pattern [kK][eE][yY] *)
-[@@deriving sexp_of]
-
-type savepoint = Token.t (* pattern [sS][aA][vV][eE][pP][oO][iI][nN][tT] *)
-[@@deriving sexp_of]
-
-type glob = Token.t (* pattern [gG][lL][oO][bB] *)
-[@@deriving sexp_of]
-
-type query = Token.t (* pattern [qQ][uU][eE][rR][yY] *)
-[@@deriving sexp_of]
-
-type groups = Token.t (* pattern [gG][rR][oO][uU][pP][sS] *)
-[@@deriving sexp_of]
-
-type intersect = Token.t (* pattern [iI][nN][tT][eE][rR][sS][eE][cC][tT] *)
-[@@deriving sexp_of]
-
-type case = Token.t (* pattern [cC][aA][sS][eE] *)
-[@@deriving sexp_of]
-
-type delete = Token.t (* pattern [dD][eE][lL][eE][tT][eE] *)
-[@@deriving sexp_of]
-
-type replace = Token.t (* pattern [rR][eE][pP][lL][aA][cC][eE] *)
-[@@deriving sexp_of]
-
-type pat_4fd4a56 = Token.t (* pattern .* *)
-[@@deriving sexp_of]
 
 type then_ = Token.t (* pattern [tT][hH][eE][nN] *)
-[@@deriving sexp_of]
 
 type foreign = Token.t (* pattern [fF][oO][rR][eE][iI][gG][nN] *)
-[@@deriving sexp_of]
 
 type into = Token.t (* pattern [iI][nN][tT][oO] *)
-[@@deriving sexp_of]
 
 type and_ = Token.t (* pattern [aA][nN][dD] *)
-[@@deriving sexp_of]
 
 type abort = Token.t (* pattern [aA][bB][oO][rR][tT] *)
-[@@deriving sexp_of]
 
 type nulls = Token.t (* pattern [nN][uU][lL][lL][sS] *)
-[@@deriving sexp_of]
 
 type conflict = Token.t (* pattern [cC][oO][nN][fF][lL][iI][cC][tT] *)
-[@@deriving sexp_of]
 
 type pat_bb5937d = Token.t (* pattern (``|[^`])* *)
-[@@deriving sexp_of]
 
 type returning = Token.t (* pattern [rR][eE][tT][uU][rR][nN][iI][nN][gG] *)
-[@@deriving sexp_of]
 
 type desc = Token.t (* pattern [dD][eE][sS][cC] *)
-[@@deriving sexp_of]
 
 type exclusive = Token.t (* pattern [eE][xX][cC][lL][uU][sS][iI][vV][eE] *)
-[@@deriving sexp_of]
 
 type unique = Token.t (* pattern [uU][nN][iI][qQ][uU][eE] *)
-[@@deriving sexp_of]
 
 type always = Token.t (* pattern [aA][lL][wW][aA][yY][sS] *)
-[@@deriving sexp_of]
 
 type filter = Token.t (* pattern [fF][iI][lL][tT][eE][rR] *)
-[@@deriving sexp_of]
 
 type check = Token.t (* pattern [cC][hH][eE][cC][kK] *)
-[@@deriving sexp_of]
 
 type rename = Token.t (* pattern [rR][eE][nN][aA][mM][eE] *)
-[@@deriving sexp_of]
 
 type match_ = Token.t (* pattern [mM][aA][tT][cC][hH] *)
-[@@deriving sexp_of]
 
 type rollback = Token.t (* pattern [rR][oO][lL][lL][bB][aA][cC][kK] *)
-[@@deriving sexp_of]
 
 type commit = Token.t (* pattern [cC][oO][mM][mM][iI][tT] *)
-[@@deriving sexp_of]
 
 type fail = Token.t (* pattern [fF][aA][iI][lL] *)
-[@@deriving sexp_of]
 
 type add = Token.t (* pattern [aA][dD][dD] *)
-[@@deriving sexp_of]
 
 type as_ = Token.t (* pattern [aA][sS] *)
-[@@deriving sexp_of]
 
 type anon_choice_temp_716f4ac = [
     `Temp_3d801aa of temp (*tok*)
   | `Temp_d5197d9 of temporary (*tok*)
 ]
-[@@deriving sexp_of]
 
-type string_ = (Token.t (* "'" *) * pat_f79575e (*tok*) * Token.t (* "'" *))
-[@@deriving sexp_of]
+type string_ = (Token.t (* "'" *) * pat_f79575e * Token.t (* "'" *))
 
 type join_operator = [
     `COMMA of Token.t (* "," *)
@@ -523,18 +361,16 @@ type join_operator = [
       * join (*tok*)
     )
 ]
-[@@deriving sexp_of]
 
 type signed_number = (
     anon_choice_PLUS_da42005 option
   * numeric_literal (*tok*)
 )
-[@@deriving sexp_of]
 
 type bind_parameter = [
     `QMARK_rep_pat_213dc3e of (
         Token.t (* "?" *)
-      * pat_213dc3e (*tok*) list (* zero or more *)
+      * pat_213dc3e list (* zero or more *)
     )
   | `Choice_AT_pat_93c883a of (
         [
@@ -543,10 +379,9 @@ type bind_parameter = [
           | `COLON of Token.t (* ":" *)
           | `HASH of Token.t (* "#" *)
         ]
-      * pat_93c883a (*tok*)
+      * pat_93c883a
     )
 ]
-[@@deriving sexp_of]
 
 type compound_operator = [
     `Union of union (*tok*)
@@ -554,27 +389,24 @@ type compound_operator = [
   | `Inte of intersect (*tok*)
   | `Except of except (*tok*)
 ]
-[@@deriving sexp_of]
 
 type identifier = [
-    `Pat_29ffae5 of pat_29ffae5 (*tok*)
+    `Pat_29ffae5 of pat_29ffae5
   | `DQUOT_pat_73398bc_DQUOT of (
-        Token.t (* "\"" *) * pat_73398bc (*tok*) * Token.t (* "\"" *)
+        Token.t (* "\"" *) * pat_73398bc * Token.t (* "\"" *)
     )
   | `BQUOT_pat_bb5937d_BQUOT of (
-        Token.t (* "`" *) * pat_bb5937d (*tok*) * Token.t (* "`" *)
+        Token.t (* "`" *) * pat_bb5937d * Token.t (* "`" *)
     )
   | `LBRACK_pat_f154b4a_RBRACK of (
-        Token.t (* "[" *) * pat_f154b4a (*tok*) * Token.t (* "]" *)
+        Token.t (* "[" *) * pat_f154b4a * Token.t (* "]" *)
     )
 ]
-[@@deriving sexp_of]
 
 type anon_choice_asc_fa4fd8b = [
     `Asc of asc (*tok*)
   | `Desc of desc (*tok*)
 ]
-[@@deriving sexp_of]
 
 type anon_choice_abort_500a898 = [
     `Abort of abort (*tok*)
@@ -583,7 +415,6 @@ type anon_choice_abort_500a898 = [
   | `Repl of replace (*tok*)
   | `Roll of rollback (*tok*)
 ]
-[@@deriving sexp_of]
 
 type conflict_clause = (
     on (*tok*)
@@ -596,19 +427,14 @@ type conflict_clause = (
       | `Repl of replace (*tok*)
     ]
 )
-[@@deriving sexp_of]
 
 type string_literal = string_
-[@@deriving sexp_of]
 
 type function_name = identifier
-[@@deriving sexp_of]
 
 type name = [ `Str_lit of string_literal | `Id of function_name ]
-[@@deriving sexp_of]
 
 type collation_name = [ `Str_lit of string_literal | `Id of function_name ]
-[@@deriving sexp_of]
 
 type literal_value = [
     `Nume_lit of numeric_literal (*tok*)
@@ -624,20 +450,15 @@ type literal_value = [
   | `Curr_date of current_date (*tok*)
   | `Curr_time_72fc600 of current_timestamp (*tok*)
 ]
-[@@deriving sexp_of]
 
 type error_message = name
-[@@deriving sexp_of]
 
 type anon_opt_opt_as_error_mess_6e99511 =
   (as_ (*tok*) option * error_message) option
-[@@deriving sexp_of]
 
 type name2 = ((error_message * Token.t (* "." *)) option * error_message)
-[@@deriving sexp_of]
 
 type savepoint_stmt = (savepoint (*tok*) * error_message)
-[@@deriving sexp_of]
 
 type type_name = (
     error_message list (* one or more *)
@@ -652,30 +473,24 @@ type type_name = (
     ]
       option
 )
-[@@deriving sexp_of]
 
 type pragma_value = [ `Signed_num of signed_number | `Name of error_message ]
-[@@deriving sexp_of]
 
 type anon_choice_inde_by_error_mess_0500888 = [
     `Inde_by_name of (indexed (*tok*) * by (*tok*) * error_message)
   | `Not_inde of (not (*tok*) * indexed (*tok*))
 ]
-[@@deriving sexp_of]
 
 type detach_stmt = (detach (*tok*) * database (*tok*) option * error_message)
-[@@deriving sexp_of]
 
 type anon_opt_tran_opt_error_mess_65fc71e =
   (transaction (*tok*) * error_message option) option
-[@@deriving sexp_of]
 
 type release_stmt = (
     release (*tok*)
   * savepoint (*tok*) option
   * error_message
 )
-[@@deriving sexp_of]
 
 type column_name_list = (
     Token.t (* "(" *)
@@ -683,13 +498,10 @@ type column_name_list = (
   * (Token.t (* "," *) * error_message) list (* zero or more *)
   * Token.t (* ")" *)
 )
-[@@deriving sexp_of]
 
 type analyze_stmt = (analyze (*tok*) * name2 option)
-[@@deriving sexp_of]
 
 type reindex_stmt = (reindex (*tok*) * name2 option)
-[@@deriving sexp_of]
 
 type drop_trigger_stmt = (
     drop (*tok*)
@@ -697,7 +509,6 @@ type drop_trigger_stmt = (
   * (if_ (*tok*) * exists (*tok*)) option
   * name2
 )
-[@@deriving sexp_of]
 
 type drop_view_stmt = (
     drop (*tok*)
@@ -705,7 +516,6 @@ type drop_view_stmt = (
   * (if_ (*tok*) * exists (*tok*)) option
   * name2
 )
-[@@deriving sexp_of]
 
 type drop_table_stmt = (
     drop (*tok*)
@@ -713,7 +523,6 @@ type drop_table_stmt = (
   * (if_ (*tok*) * exists (*tok*)) option
   * name2
 )
-[@@deriving sexp_of]
 
 type drop_index_stmt = (
     drop (*tok*)
@@ -721,7 +530,6 @@ type drop_index_stmt = (
   * (if_ (*tok*) * exists (*tok*)) option
   * name2
 )
-[@@deriving sexp_of]
 
 type pragma_stmt = (
     pragma (*tok*)
@@ -734,21 +542,18 @@ type pragma_stmt = (
     ]
       option
 )
-[@@deriving sexp_of]
 
 type qualified_table_name = (
     name2
   * (as_ (*tok*) * error_message) option
   * anon_choice_inde_by_error_mess_0500888 option
 )
-[@@deriving sexp_of]
 
 type rollback_stmt = (
     rollback (*tok*)
   * anon_opt_tran_opt_error_mess_65fc71e
   * (to_ (*tok*) * savepoint (*tok*) option * error_message) option
 )
-[@@deriving sexp_of]
 
 type begin_stmt = (
     begin_ (*tok*)
@@ -760,19 +565,16 @@ type begin_stmt = (
       option
   * anon_opt_tran_opt_error_mess_65fc71e
 )
-[@@deriving sexp_of]
 
 type commit_stmt = (
     [ `Commit of commit (*tok*) | `End of end_ (*tok*) ]
   * anon_opt_tran_opt_error_mess_65fc71e
 )
-[@@deriving sexp_of]
 
 type anon_choice_error_mess_facbc16 = [
     `Name of error_message
   | `Column_name_list of column_name_list
 ]
-[@@deriving sexp_of]
 
 type anon_COMMA_LPAR_file_rep_COMMA_file_RPAR_a378f47 = (
     Token.t (* "," *)
@@ -1183,7 +985,6 @@ and with_clause = [
     * (Token.t (* "," *) * common_table_expression) list (* zero or more *)
   )
 ]
-[@@deriving sexp_of]
 
 type foreign_key_clause = (
     references (*tok*)
@@ -1215,10 +1016,8 @@ type foreign_key_clause = (
     )
       option
 )
-[@@deriving sexp_of]
 
 type indexed_column = (filename * anon_choice_asc_fa4fd8b option)
-[@@deriving sexp_of]
 
 type attach_stmt = (
     attach (*tok*)
@@ -1227,21 +1026,18 @@ type attach_stmt = (
   * as_ (*tok*)
   * error_message
 )
-[@@deriving sexp_of]
 
 type vacuum_stmt = (
     vacuum (*tok*)
   * error_message option
   * (into (*tok*) * filename) option
 )
-[@@deriving sexp_of]
 
 type returning_clause = (
     returning (*tok*)
   * result_column
   * (Token.t (* "," *) * result_column) list (* zero or more *)
 )
-[@@deriving sexp_of]
 
 type create_view_stmt = (
     create (*tok*)
@@ -1253,7 +1049,6 @@ type create_view_stmt = (
   * as_ (*tok*)
   * select_stmt
 )
-[@@deriving sexp_of]
 
 type column_constraint = (
     (constraint_ (*tok*) * error_message) option
@@ -1296,7 +1091,6 @@ type column_constraint = (
         )
     ]
 )
-[@@deriving sexp_of]
 
 type create_index_stmt = (
     create (*tok*)
@@ -1312,7 +1106,6 @@ type create_index_stmt = (
   * Token.t (* ")" *)
   * where_clause option
 )
-[@@deriving sexp_of]
 
 type table_constraint = (
     (constraint_ (*tok*) * error_message) option
@@ -1342,7 +1135,6 @@ type table_constraint = (
         )
     ]
 )
-[@@deriving sexp_of]
 
 type upsert_clause = (
     on (*tok*)
@@ -1373,7 +1165,6 @@ type upsert_clause = (
         )
     ]
 )
-[@@deriving sexp_of]
 
 type update_stmt = (
     with_clause option
@@ -1395,7 +1186,6 @@ type update_stmt = (
   * order_by_clause option
   * limit_clause option
 )
-[@@deriving sexp_of]
 
 type delete_stmt = (
     with_clause option
@@ -1407,14 +1197,12 @@ type delete_stmt = (
   * order_by_clause option
   * limit_clause option
 )
-[@@deriving sexp_of]
 
 type column_def = (
     error_message
   * type_name option
   * column_constraint list (* zero or more *)
 )
-[@@deriving sexp_of]
 
 type insert_stmt = (
     with_clause option
@@ -1448,7 +1236,6 @@ type insert_stmt = (
     ]
   * returning_clause option
 )
-[@@deriving sexp_of]
 
 type create_virtual_table_stmt = (
     create (*tok*)
@@ -1467,7 +1254,6 @@ type create_virtual_table_stmt = (
     )
       option
 )
-[@@deriving sexp_of]
 
 type create_table_stmt = (
     create (*tok*)
@@ -1487,7 +1273,6 @@ type create_table_stmt = (
         )
     ]
 )
-[@@deriving sexp_of]
 
 type alter_table_stmt = (
     alter (*tok*)
@@ -1514,7 +1299,6 @@ type alter_table_stmt = (
         )
     ]
 )
-[@@deriving sexp_of]
 
 type create_trigger_stmt = (
     create (*tok*)
@@ -1566,7 +1350,6 @@ type create_trigger_stmt = (
       list (* one or more *)
   * end_ (*tok*)
 )
-[@@deriving sexp_of]
 
 type sql_stmt = (
     (explain (*tok*) * (query (*tok*) * plan (*tok*)) option) option
@@ -1598,34 +1381,28 @@ type sql_stmt = (
       | `Vacuum_stmt of vacuum_stmt
     ]
 )
-[@@deriving sexp_of]
 
 type sql_stmt_list = (
     sql_stmt option
   * (Token.t (* ";" *) * sql_stmt option) list (* zero or more *)
 )
-[@@deriving sexp_of]
 
 type whitespace (* inlined *) = Token.t (* pattern [ \t\n\f\r]+ *)
-[@@deriving sexp_of]
 
 type word (* inlined *) =
   Token.t (* pattern [_a-zA-Z\x80-\xFF$@#:?][$_0-9a-zA-Z\x80-\xFF]* *)
-[@@deriving sexp_of]
 
 type comment (* inlined *) = [
-    `DASHDASH_pat_4fd4a56 of (Token.t (* "--" *) * pat_4fd4a56 (*tok*))
-  | `SLASHSTAR_pat_ae33c7c_SLASH of (
-        Token.t (* "/*" *) * pat_ae33c7c (*tok*) * Token.t (* "/" *)
+    `DASHDASH_pat_4fd4a56 of (Token.t (* "--" *) * pat_4fd4a56)
+  | `SLASHSTAR_pat_05bf793_SLASH of (
+        Token.t (* "/*" *) * pat_05bf793 * Token.t (* "/" *)
     )
 ]
-[@@deriving sexp_of]
 
 type blob_literal (* inlined *) = (
     [ `X_9dd4e46 of Token.t (* "x" *) | `X_02129bb of Token.t (* "X" *) ]
   * string_literal
 )
-[@@deriving sexp_of]
 
 type raise_function (* inlined *) = (
     raise (*tok*)
@@ -1644,8 +1421,3 @@ type raise_function (* inlined *) = (
     ]
   * Token.t (* ")" *)
 )
-[@@deriving sexp_of]
-
-let dump_tree root =
-  sexp_of_sql_stmt_list root
-  |> Print_sexp.to_stdout

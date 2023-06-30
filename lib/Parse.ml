@@ -50,6 +50,7 @@ let children_regexps : (string * Run.exp option) list = [
   "initially", None;
   "instead", None;
   "join", None;
+  "pat_93c883a", None;
   "autoincrement", None;
   "first", None;
   "on", None;
@@ -58,7 +59,7 @@ let children_regexps : (string * Run.exp option) list = [
   "delete", None;
   "false", None;
   "asc", None;
-  "pat_29ffae5", None;
+  "pat_213dc3e", None;
   "replace", None;
   "virtual", None;
   "else", None;
@@ -72,7 +73,6 @@ let children_regexps : (string * Run.exp option) list = [
   "deferrable", None;
   "fail", None;
   "no", None;
-  "pat_213dc3e", None;
   "action", None;
   "filter", None;
   "null", None;
@@ -108,7 +108,6 @@ let children_regexps : (string * Run.exp option) list = [
   "ties", None;
   "where", None;
   "not", None;
-  "pat_73398bc", None;
   "between", None;
   "begin", None;
   "glob", None;
@@ -128,7 +127,8 @@ let children_regexps : (string * Run.exp option) list = [
   "table", None;
   "references", None;
   "true", None;
-  "pat_93c883a", None;
+  "pat_29ffae5", None;
+  "pat_73398bc", None;
   "like", None;
   "outer", None;
   "collate", None;
@@ -2362,6 +2362,10 @@ let trans_join ((kind, body) : mt) : CST.join =
   | Leaf v -> v
   | Children _ -> assert false
 
+let trans_pat_93c883a ((kind, body) : mt) : CST.pat_93c883a =
+  match body with
+  | Leaf v -> v
+  | Children _ -> assert false
 
 let trans_autoincrement ((kind, body) : mt) : CST.autoincrement =
   match body with
@@ -2403,7 +2407,7 @@ let trans_asc ((kind, body) : mt) : CST.asc =
   | Leaf v -> v
   | Children _ -> assert false
 
-let trans_pat_29ffae5 ((kind, body) : mt) : CST.pat_29ffae5 =
+let trans_pat_213dc3e ((kind, body) : mt) : CST.pat_213dc3e =
   match body with
   | Leaf v -> v
   | Children _ -> assert false
@@ -2474,10 +2478,6 @@ let trans_no ((kind, body) : mt) : CST.no =
   | Leaf v -> v
   | Children _ -> assert false
 
-let trans_pat_213dc3e ((kind, body) : mt) : CST.pat_213dc3e =
-  match body with
-  | Leaf v -> v
-  | Children _ -> assert false
 
 let trans_action ((kind, body) : mt) : CST.action =
   match body with
@@ -2654,10 +2654,6 @@ let trans_not ((kind, body) : mt) : CST.not =
   | Leaf v -> v
   | Children _ -> assert false
 
-let trans_pat_73398bc ((kind, body) : mt) : CST.pat_73398bc =
-  match body with
-  | Leaf v -> v
-  | Children _ -> assert false
 
 let trans_between ((kind, body) : mt) : CST.between =
   match body with
@@ -2754,8 +2750,12 @@ let trans_true_ ((kind, body) : mt) : CST.true_ =
   | Leaf v -> v
   | Children _ -> assert false
 
+let trans_pat_29ffae5 ((kind, body) : mt) : CST.pat_29ffae5 =
+  match body with
+  | Leaf v -> v
+  | Children _ -> assert false
 
-let trans_pat_93c883a ((kind, body) : mt) : CST.pat_93c883a =
+let trans_pat_73398bc ((kind, body) : mt) : CST.pat_73398bc =
   match body with
   | Leaf v -> v
   | Children _ -> assert false
@@ -3099,7 +3099,6 @@ let trans_signed_number ((kind, body) : mt) : CST.signed_number =
       )
   | Leaf _ -> assert false
 
-
 let trans_bind_parameter ((kind, body) : mt) : CST.bind_parameter =
   match body with
   | Children v ->
@@ -3150,6 +3149,7 @@ let trans_bind_parameter ((kind, body) : mt) : CST.bind_parameter =
       | _ -> assert false
       )
   | Leaf _ -> assert false
+
 
 let trans_identifier ((kind, body) : mt) : CST.identifier =
   match body with
