@@ -3463,7 +3463,42 @@ let map_sql_stmt_list (env : env) ((v1, v2) : CST.sql_stmt_list) =
   in
   R.Tuple [v1; v2]
 
+let map_whitespace (env : env) (tok : CST.whitespace) =
+  (* pattern [ \t\n\f\r]+ *) token env tok
+
+let map_comment (env : env) (x : CST.comment) =
+  (match x with
+  | `DASHDASH_pat_4fd4a56 (v1, v2) -> R.Case ("DASHDASH_pat_4fd4a56",
+      let v1 = (* "--" *) token env v1 in
+      let v2 = map_pat_4fd4a56 env v2 in
+      R.Tuple [v1; v2]
+    )
+  | `SLASHSTAR_pat_05bf793_SLASH (v1, v2, v3) -> R.Case ("SLASHSTAR_pat_05bf793_SLASH",
+      let v1 = (* "/*" *) token env v1 in
+      let v2 = map_pat_05bf793 env v2 in
+      let v3 = (* "/" *) token env v3 in
+      R.Tuple [v1; v2; v3]
+    )
+  )
+
 let dump_tree root =
   map_sql_stmt_list () root
-  |> Tree_sitter_run.Raw_tree.to_string
-  |> print_string
+  |> Tree_sitter_run.Raw_tree.to_channel stdout
+
+let map_extra (env : env) (x : CST.extra) =
+  match x with
+  | Whitespace (_loc, x) -> ("whitespace", "whitespace", map_whitespace env x)
+  | Comment (_loc, x) -> ("comment", "comment", map_comment env x)
+
+let dump_extras (extras : CST.extras) =
+  List.iter (fun extra ->
+    let ts_rule_name, ocaml_type_name, raw_tree = map_extra () extra in
+    let details =
+      if ocaml_type_name <> ts_rule_name then
+        Printf.sprintf " (OCaml type '%s')" ocaml_type_name
+      else
+        ""
+    in
+    Printf.printf "%s%s:\n" ts_rule_name details;
+    Tree_sitter_run.Raw_tree.to_channel stdout raw_tree
+  ) extras

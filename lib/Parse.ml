@@ -73,6 +73,7 @@ let children_regexps : (string * Run.exp option) list = [
   "deferrable", None;
   "fail", None;
   "no", None;
+  "pat_05bf793", None;
   "action", None;
   "filter", None;
   "null", None;
@@ -108,6 +109,7 @@ let children_regexps : (string * Run.exp option) list = [
   "ties", None;
   "where", None;
   "not", None;
+  "pat_4fd4a56", None;
   "between", None;
   "begin", None;
   "glob", None;
@@ -137,6 +139,7 @@ let children_regexps : (string * Run.exp option) list = [
   "transaction", None;
   "conflict", None;
   "distinct", None;
+  "whitespace", None;
   "from", None;
   "key", None;
   "over", None;
@@ -220,6 +223,20 @@ let children_regexps : (string * Run.exp option) list = [
           Token (Literal "#");
         |];
         Token (Name "pat_93c883a");
+      ];
+    |];
+  );
+  "comment",
+  Some (
+    Alt [|
+      Seq [
+        Token (Literal "--");
+        Token (Name "pat_4fd4a56");
+      ];
+      Seq [
+        Token (Literal "/*");
+        Token (Name "pat_05bf793");
+        Token (Literal "/");
       ];
     |];
   );
@@ -2478,6 +2495,10 @@ let trans_no ((kind, body) : mt) : CST.no =
   | Leaf v -> v
   | Children _ -> assert false
 
+let trans_pat_05bf793 ((kind, body) : mt) : CST.pat_05bf793 =
+  match body with
+  | Leaf v -> v
+  | Children _ -> assert false
 
 let trans_action ((kind, body) : mt) : CST.action =
   match body with
@@ -2654,6 +2675,10 @@ let trans_not ((kind, body) : mt) : CST.not =
   | Leaf v -> v
   | Children _ -> assert false
 
+let trans_pat_4fd4a56 ((kind, body) : mt) : CST.pat_4fd4a56 =
+  match body with
+  | Leaf v -> v
+  | Children _ -> assert false
 
 let trans_between ((kind, body) : mt) : CST.between =
   match body with
@@ -2800,6 +2825,10 @@ let trans_distinct ((kind, body) : mt) : CST.distinct =
   | Leaf v -> v
   | Children _ -> assert false
 
+let trans_whitespace ((kind, body) : mt) : CST.whitespace =
+  match body with
+  | Leaf v -> v
+  | Children _ -> assert false
 
 let trans_from ((kind, body) : mt) : CST.from =
   match body with
@@ -3150,6 +3179,36 @@ let trans_bind_parameter ((kind, body) : mt) : CST.bind_parameter =
       )
   | Leaf _ -> assert false
 
+let trans_comment ((kind, body) : mt) : CST.comment =
+  match body with
+  | Children v ->
+      (match v with
+      | Alt (0, v) ->
+          `DASHDASH_pat_4fd4a56 (
+            (match v with
+            | Seq [v0; v1] ->
+                (
+                  Run.trans_token (Run.matcher_token v0),
+                  trans_pat_4fd4a56 (Run.matcher_token v1)
+                )
+            | _ -> assert false
+            )
+          )
+      | Alt (1, v) ->
+          `SLASHSTAR_pat_05bf793_SLASH (
+            (match v with
+            | Seq [v0; v1; v2] ->
+                (
+                  Run.trans_token (Run.matcher_token v0),
+                  trans_pat_05bf793 (Run.matcher_token v1),
+                  Run.trans_token (Run.matcher_token v2)
+                )
+            | _ -> assert false
+            )
+          )
+      | _ -> assert false
+      )
+  | Leaf _ -> assert false
 
 let trans_identifier ((kind, body) : mt) : CST.identifier =
   match body with
@@ -7632,14 +7691,53 @@ let trans_sql_stmt_list ((kind, body) : mt) : CST.sql_stmt_list =
       )
   | Leaf _ -> assert false
 
+(*
+   Costly operation that translates a whole tree or subtree.
+
+   The first pass translates it into a generic tree structure suitable
+   to guess which node corresponds to each grammar rule.
+   The second pass is a translation into a typed tree where each grammar
+   node has its own type.
+
+   This function is called:
+   - once on the root of the program after removing extras
+     (comments and other nodes that occur anywhere independently from
+     the grammar);
+   - once of each extra node, resulting in its own independent tree of type
+     'extra'.
+*)
+let translate_tree src node trans_x =
+  let matched_tree = Run.match_tree children_regexps src node in
+  Option.map trans_x matched_tree
+
+
+let translate_extra src (node : Tree_sitter_output_t.node) : CST.extra option =
+  match node.type_ with
+  | "whitespace" ->
+      (match translate_tree src node trans_whitespace with
+      | None -> None
+      | Some x -> Some (Whitespace (Run.get_loc node, x)))
+  | "comment" ->
+      (match translate_tree src node trans_comment with
+      | None -> None
+      | Some x -> Some (Comment (Run.get_loc node, x)))
+  | _ -> None
+
+let translate_root src root_node =
+  translate_tree src root_node trans_sql_stmt_list
+
 let parse_input_tree input_tree =
   let orig_root_node = Tree_sitter_parsing.root input_tree in
   let src = Tree_sitter_parsing.src input_tree in
   let errors = Run.extract_errors src orig_root_node in
-  let root_node = Run.remove_extras ~extras orig_root_node in
-  let matched_tree = Run.match_tree children_regexps src root_node in
-  let opt_program = Option.map trans_sql_stmt_list matched_tree in
-  Parsing_result.create src opt_program errors
+  let opt_program, extras =
+     Run.translate
+       ~extras
+       ~translate_root:(translate_root src)
+       ~translate_extra:(translate_extra src)
+       orig_root_node
+  in
+  Parsing_result.create src opt_program extras errors
 
 let string ?src_file contents =
   let input_tree = parse_source_string ?src_file contents in
