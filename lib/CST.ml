@@ -1422,6 +1422,9 @@ type raise_function (* inlined *) = (
   * Token.t (* ")" *)
 )
 
-type extra = Whitespace of Loc.t * whitespace | Comment of Loc.t * comment
+type extra = [
+    `Whitespace of Loc.t * whitespace
+  | `Comment of Loc.t * comment
+]
 
 type extras = extra list
