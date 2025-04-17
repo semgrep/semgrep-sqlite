@@ -2,25 +2,25 @@ File: semgrep-grammars/src/tree-sitter-sqlite/LICENSE
 Git repo name: tree-sitter-sqlite
 Latest commit in repo: 2e71f3a6f11cae37a3cabfab911ae17d74f1e801
 Last change in file:
-  commit d74a2ff946a1949b904565823ffdc972b1c7b540
+  commit 2e71f3a6f11cae37a3cabfab911ae17d74f1e801
   Author: Martin Jambon <martin@mjambon.com>
-  Date:   Wed Jul 7 02:29:35 2021 -0700
+  Date:   Wed Jul 7 01:00:27 2021 -0700
   
-      Add MIT LICENSE file, similar to other tree-sitter-* grammar projects.
+      git-ignore more files
 ---
 File: semgrep-grammars/src/tree-sitter-sqlite/grammar.js
 Git repo name: tree-sitter-sqlite
 Latest commit in repo: 2e71f3a6f11cae37a3cabfab911ae17d74f1e801
 Last change in file:
-  commit aca053de41254ea096917194c9e5cd4959de973f
-  Author: h11 <me@h11.io>
-  Date:   Thu Jul 1 19:27:08 2021 +0800
+  commit 2e71f3a6f11cae37a3cabfab911ae17d74f1e801
+  Author: Martin Jambon <martin@mjambon.com>
+  Date:   Wed Jul 7 01:00:27 2021 -0700
   
-      remove postgresql support
+      git-ignore more files
 ---
 File: semgrep-grammars/src/semgrep-sqlite/grammar.js
 Git repo name: ocaml-tree-sitter-semgrep
-Latest commit in repo: 62c59803ce966ac00210b5ed8aa163a926f7eaad
+Latest commit in repo: dea26c1d0d5b007958b27d072c544f642af0af43
 Last change in file:
   commit 136e61936e856819135fedf3fedb754b8b48cc57
   Author: Martin Jambon <martin@r2c.dev>
